@@ -1,0 +1,17 @@
+from building import *
+import os
+
+cwd = GetCurrentDir()
+
+inc = []
+
+src = Glob('*.c')
+
+group = DefineGroup('fs/tmpfs', src, depend=[''], CPPPATH=inc)
+
+list = os.listdir(cwd)
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        group = group + SConscript(os.path.join(item, 'SConscript'))
+
+Return('group')
